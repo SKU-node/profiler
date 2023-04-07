@@ -1,15 +1,19 @@
 import { Route, Routes } from "react-router-dom";
-import BarChart from "./component/BarChart";
-import { LineChart } from "./component/LineChart";
 import Graph from "./pages/Graph";
 import Main from "./pages/Main";
+import Header from "./component/Header";
+import Redirector from "./utils/Redirector";
 
 function App() {
   return (
     <Routes>
-      <Route index />
-      <Route path="/new" element={<Main />} />
-      <Route path="/graph/:id" elemet={<Graph />} />
+      <Route path="/" element={<Header />}>
+        <Route index element={<Main />} />
+        <Route path="/graph/:id" element={<Graph />} />
+        <Route path="/new" />
+        <Route path="*" element={<Redirector />} />
+      </Route>
+      <Route path="*" element={<Redirector />} />
     </Routes>
   );
 }
