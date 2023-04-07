@@ -1,12 +1,16 @@
+import { Route, Routes } from "react-router-dom";
 import BarChart from "./component/BarChart";
 import { LineChart } from "./component/LineChart";
+import Graph from "./pages/Graph";
+import Main from "./pages/Main";
 
 function App() {
   return (
-    <div style={{ display: "flex" }}>
-      <BarChart />
-      <LineChart />
-    </div>
+    <Routes>
+      <Route index />
+      <Route path="/new" element={<Main />} />
+      <Route path="/graph/:id" elemet={<Graph />} />
+    </Routes>
   );
 }
 
