@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import Typo from "./Typo";
 import Container from "./Container";
-import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import CLink from "./CLink";
+import { useEffect } from "react";
 
 const UnderLiner = styled.div`
   border-bottom: 4px solid black;
@@ -34,6 +35,10 @@ function Header() {
     let http = loc.splice(0, loc.length - idx).join("/");
     nav(http);
   };
+
+  useEffect(() => {
+    if ([...loc].pop() === "") nav("main");
+  }, []);
 
   return (
     <TitleContainer dir="column">
