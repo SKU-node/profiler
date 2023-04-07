@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Typo from "./Typo";
 import Container from "./Container";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 
 const UnderLiner = styled.div`
   border-bottom: 4px solid black;
@@ -29,11 +29,9 @@ function Header() {
   loc.shift();
 
   const onMenuClick = (e) => {
-    const place = e.target.innerHTML.replace(" /", "");
     const idx = loc.length - e.target.id - 1;
-    let http = "";
-    for (let i = 0; i < idx; i++) http += "../";
-    nav(http + place);
+    let http = loc.splice(0, loc.length - idx).join("/");
+    nav(http);
   };
 
   return (
@@ -46,10 +44,11 @@ function Header() {
       <Container dir="row">
         {loc.map((v, i) => (
           <Menu onClick={onMenuClick} id={i} key={i}>
-            {v} /
+            {i === 0 ? v : "/ " + v}
           </Menu>
         ))}
       </Container>
+      <Outlet />
     </TitleContainer>
   );
 }
