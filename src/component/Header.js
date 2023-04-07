@@ -43,7 +43,7 @@ function Header() {
       </UnderLiner>
       <Container dir="row">
         {loc.map((v, i) => (
-          <Menu onClick={onMenuClick} id={i} key={i}>
+          <Menu onClick={onMenuClick} key={i}>
             {i === 0 ? v : "/ " + v}
           </Menu>
         ))}

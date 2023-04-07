@@ -6,7 +6,7 @@ function Redirector() {
 
   useEffect(() => {
     nav("main");
-  }, []);
+  }, [nav]);
 
   return <Outlet />;
 }
