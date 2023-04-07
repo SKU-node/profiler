@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Typo from "./Typo";
 import Container from "./Container";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import CLink from "./CLink";
 
 const UnderLiner = styled.div`
   border-bottom: 4px solid black;
@@ -12,12 +13,12 @@ const TitleContainer = styled(Container)`
   margin: 2% 0 0 5%;
 `;
 
-const TitleLink = styled(Link)`
-  text-decoration: none;
-  color: black;
+const HTypo = styled(Typo)`
+  margin: 10px;
+  margin-left: 0px;
 `;
 
-const Menu = styled(Typo)`
+const Menu = styled(HTypo)`
   margin-right: 1%;
   font-size: 30px;
   cursor: pointer;
@@ -37,9 +38,9 @@ function Header() {
   return (
     <TitleContainer dir="column">
       <UnderLiner>
-        <TitleLink to="/main">
-          <Typo size="50px">PF STALKER</Typo>
-        </TitleLink>
+        <CLink to="/main">
+          <HTypo size="50px">PF STALKER</HTypo>
+        </CLink>
       </UnderLiner>
       <Container dir="row">
         {loc.map((v, i) => (
