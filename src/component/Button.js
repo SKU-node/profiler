@@ -25,8 +25,8 @@ const Body = styled.div`
   }
 `;
 
-function Button({ value }) {
-  return <Body>{value}</Body>;
+function Button({ onClick, value }) {
+  return <Body onClick={onClick}>{value}</Body>;
 }
 
 export default Button;
