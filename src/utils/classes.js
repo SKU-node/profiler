@@ -1,9 +1,9 @@
-class Graph {
-  constructor(id, values) {
-    this.id = id;
+class GraphValue {
+  constructor(task, values) {
+    this.task = task;
     this.dataNum = values.length;
     this.values = values;
   }
 }
 
-export { Graph };
+export { GraphValue };
