@@ -3,11 +3,11 @@ import styled from "styled-components";
 import TextBox from "../component/TextBox";
 import Typo from "../component/Typo";
 import Button from "../component/Button";
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import fileSlice from "../store/fileSlice";
-import { setCookie } from "../utils/cookie";
+import graphSlice from "../store/graphSlice";
 import dataChanger from "../utils/dataChangerVer2";
+import { useNavigate } from "react-router-dom";
 
 const Body = styled(Container)`
   margin-top: 5vh;
@@ -35,31 +35,41 @@ const DataHeader = styled(Container)`
 `;
 
 function New() {
+  const graph = useSelector((state) => state.graph.data);
   const dispatch = useDispatch();
+  const nav = useNavigate();
+  const [file, setFile] = useState("");
+  const [title, setTitle] = useState("");
 
-  const file = useSelector((state) => state.file);
+  const onFileNmaeChange = (e) => setTitle(e.target.value);
 
-  const onChange = (e) => {
+  const onFileChange = (e) => {
     const reader = new FileReader();
-    reader.onload = (v) => dispatch(fileSlice.actions.setFile(v.target.result));
+    reader.onload = (e) => setFile(e.target.result);
     reader.readAsText(e.target.files[0]);
   };
 
-  const onClick = () => {
-    if (file.file) setCookie(dataChanger(file.file));
-    console.log(dataChanger(file.file));
+  const onSubmitClick = () => {
+    if (file && title) {
+      const result = dataChanger(file);
+      const today = new Date().getDate();
+
+      const obj = { title: title, value: result, created_at: today, updated_at: today };
+      dispatch(graphSlice.actions.setGraph([...graph, obj]));
+      nav("../main");
+    }
   };
 
   return (
     <Container>
       <Body dir="column">
-        <TextBox placeholder="FILENAME" />
+        <TextBox placeholder="FILENAME" onChange={onFileNmaeChange} />
         <DataBody dir="column">
           <DataHeader>
             <DataTitle>DATA</DataTitle>
           </DataHeader>
-          <input type="file" onChange={onChange} />
-          <Button onClick={onClick} value="SUBMIT" />
+          <input type="file" onChange={onFileChange} />
+          <Button onClick={onSubmitClick} value="SUBMIT" />
         </DataBody>
       </Body>
     </Container>

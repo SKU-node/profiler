@@ -13,6 +13,7 @@ const Body = styled.div`
   justify-content: center;
   align-items: center;
   font-family: interBold;
+  margin: ${(props) => props.margin};
 
   &:hover {
     filter: invert(20%);
@@ -25,8 +26,12 @@ const Body = styled.div`
   }
 `;
 
-function Button({ onClick, value }) {
-  return <Body onClick={onClick}>{value}</Body>;
+function Button({ onClick, margin, value }) {
+  return (
+    <Body onClick={onClick} margin={margin}>
+      {value}
+    </Body>
+  );
 }
 
 export default Button;
