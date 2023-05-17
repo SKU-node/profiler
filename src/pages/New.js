@@ -52,7 +52,8 @@ function New() {
   const onSubmitClick = () => {
     if (file && title) {
       const result = dataChanger(file);
-      const today = new Date().getDate();
+      const date = new Date();
+      const today = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
 
       const obj = { title: title, value: result, created_at: today, updated_at: today };
       dispatch(graphSlice.actions.setGraph([...graph, obj]));

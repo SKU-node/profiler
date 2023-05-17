@@ -1,19 +1,24 @@
 import * as React from "react";
 import { ResponsiveBar } from "@nivo/bar";
-import { barData, keys, style } from "./chartdata";
 
-function Barchart() {
+function Barchart({ barData }) {
+  const keys = ["performance"];
+
+  const style = {
+    margin: { top: 50, right: 50, bottom: 50, left: 50 },
+    colors: ["orange"],
+    padding: 0.3,
+  };
+
   return (
-    <div style={{ width: "800px", height: "500px", margin: "0 auto" }}>
-      <ResponsiveBar
-        data={barData}
-        keys={keys}
-        indexBy="bottle"
-        margin={style.margin}
-        colors={style.colors}
-        padding={style.padding}
-      />
-    </div>
+    <ResponsiveBar
+      data={barData.values}
+      keys={keys}
+      indexBy="name"
+      margin={style.margin}
+      colors={style.colors}
+      padding={style.padding}
+    />
   );
 }
 
