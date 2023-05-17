@@ -12,8 +12,8 @@ function Main() {
   const graph = useSelector((state) => state.graph.data);
   return (
     <Body>
-      {graph.map((v, i) => (
-        <GraphCard key={i} data={v} />
+      {[undefined, ...graph].map((v, i) => (
+        <GraphCard key={i} data={v} index={i} />
       ))}
     </Body>
   );

@@ -47,10 +47,10 @@ const Contents = styled(CardBox)`
   align-items: flex-start;
 `;
 
-function GraphCard({ data }) {
+function GraphCard({ data, index }) {
   if (data)
     return (
-      <CLink to={`../graph/${data.id}`}>
+      <CLink to={`../graph/${index}`}>
         <Body dir="column">
           <Title>
             <TitleTypo size="24px">{data.title}</TitleTypo>
