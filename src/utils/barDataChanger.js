@@ -1,7 +1,6 @@
 function barDataChanger(data) {
   const result = [];
-  const a = data.value[0];
-  a.forEach((e) => result.push(graphValueToBar(e)));
+  data.forEach((e) => result.push(graphValueToBar(e)));
 
   return result;
 }
@@ -11,7 +10,8 @@ function graphValueToBar({ dataNum, task, values }) {
 
   for (let i = 0; i < dataNum; i++) {
     const obj = {};
-    obj["core" + (i + 1)] = values[i];
+    obj.name = "core" + (i + 1);
+    obj.performance = Number(values[i]);
     result.values.push(obj);
   }
 
