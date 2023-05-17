@@ -7,7 +7,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import fileSlice from "../store/fileSlice";
 import { setCookie } from "../utils/cookie";
-import dataChanger from "../utils/dataChanger";
+import dataChanger from "../utils/dataChangerVer2";
 
 const Body = styled(Container)`
   margin-top: 5vh;
@@ -46,7 +46,7 @@ function New() {
   };
 
   const onClick = () => {
-    setCookie(dataChanger(file.file));
+    if (file.file) setCookie(dataChanger(file.file));
     console.log(dataChanger(file.file));
   };
 
