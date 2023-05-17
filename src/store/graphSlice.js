@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const graphSlice = createSlice({
   name: "graph",
   initialState: {
-    data: [],
+    data: [undefined],
   },
   reducers: {
     setGraph: (state, action) => {
