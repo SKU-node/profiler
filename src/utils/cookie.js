@@ -5,7 +5,7 @@ function setCookie(value, exp) {
 }
 
 function getCookie() {
-  const value = document.cookie.match("(^|;) ?" + "PF" + "=([^;]*)(;|$)");
+  const value = document.cookie.match("(^|;) ?PF=([^;]*)(;|$)");
   return value ? value[2] : null;
 }
 
