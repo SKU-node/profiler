@@ -19,10 +19,11 @@ function graphMaker(tasks, numbers, cores) {
       const v = numbers.slice(t, t + 1);
       number.push(...v);
     }
-
     graph.push(new GraphValue(tasks.shift(), number));
     // 태스크와 태스크테 해당하는 점수들 할당하여 생성된 GraphValue 를 결과값에 push
   }
+
+  console.log(numbers);
 
   return graph;
 }
@@ -46,6 +47,7 @@ function dataChanger(input) {
         result.push(graphMaker(tasks, numbers, cores));
         cores.splice(0); // 데이터를 사용하였으므로 초기화
         tasks.push(e); // 데이터를 사용하였으므로 초기화
+        numbers.splice(0); // 데이터를 사용하였으므로 초기화
         flag = 0; // 플래그 초기화
       }
     } else if (/core/.test(e)) {
