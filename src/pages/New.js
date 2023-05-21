@@ -28,7 +28,7 @@ const DataTitle = styled(Typo)`
 
 const DataHeader = styled(Container)`
   width: 100%;
-  height: 4vh;
+  height: 4vh;  
   background-color: #b8b8b8;
   border-radius: 10px 10px 0 0;
   align-items: center;

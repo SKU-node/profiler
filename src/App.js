@@ -4,6 +4,8 @@ import Main from "./pages/Main";
 import Header from "./component/Header";
 import Redirector from "./utils/Redirector";
 import New from "./pages/New";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 function App() {
   return (
@@ -12,6 +14,8 @@ function App() {
         <Route path="/main" element={<Main />} />
         <Route path="/graph/:id" element={<Graph />} />
         <Route path="/new" element={<New />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />}/>
         <Route path="*" element={<Redirector />} />
       </Route>
       <Route path="*" element={<Redirector />} />

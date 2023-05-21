@@ -1,5 +1,5 @@
 {
-  "name": "chart.js",
+  "name": "chart",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -40,5 +40,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "description": "docker-compose up 으로써 사용 가능",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC"
 }

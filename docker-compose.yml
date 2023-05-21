@@ -1,12 +1,22 @@
 version: "3.8"
-volumes:
-  build_folder: null
 
 services:
+
   profiler:
     build: ./
     ports:
       - "6638:6638"
     volumes:
       - .:/profiler
+    depends_on:
+      - db
+    environment:
+      - MONGODB_URI=mongodb://db:27017/myapp
     command: "yarn start"
+
+  db:
+    image: mongo:4.4.12
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=myapp
