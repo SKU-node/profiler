@@ -18,7 +18,7 @@ function Main() {
     nav('/Login');
   }
   const registerClicked=()=>{
-    nav('/Register');
+    nav('/RegisterUsers');
   }
   const graph = useSelector((state) => state.graph.data);
   return (

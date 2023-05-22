@@ -14,6 +14,18 @@ services:
       - MONGODB_URI=mongodb://db:27017/myapp
     command: "yarn start"
 
+  backend:
+    build: ./
+    ports:
+      - "6639:6639"
+    volumes:
+      - .:/backend
+    depends_on:
+      - db
+    environment:
+      - MONGODB_URI=mongodb://db:27017/myapp
+    command: "yarn start:backend"
+
   db:
     image: mongo:4.4.12
     ports:

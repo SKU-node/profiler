@@ -20,6 +20,7 @@
   },
   "scripts": {
     "start": "export PORT=6638 && react-scripts start",
+    "start:backend": "export PORT=6639 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test"
   },
@@ -29,6 +30,7 @@
       "react-app/jest"
     ]
   },
+  "proxy": "http://localhost:6639",
   "browserslist": {
     "production": [
       ">0.2%",
