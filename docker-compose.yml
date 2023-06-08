@@ -9,4 +9,4 @@ services:
       - "6638:6638"
     volumes:
       - .:/profiler
-    command: "yarn start"
+    command: "yarn start:nodemon"

@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import React from "react";
 import Graph from "./pages/Graph";
 import Main from "./pages/Main";
 import Header from "./component/Header";

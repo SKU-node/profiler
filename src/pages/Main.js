@@ -2,6 +2,7 @@ import styled from "styled-components";
 import GraphCard from "../component/GraphCard";
 import Container from "../component/Container";
 import { useSelector } from "react-redux";
+import React from "react";
 
 const Body = styled(Container)`
   margin-top: 2vh;

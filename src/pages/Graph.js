@@ -75,12 +75,16 @@ function Graph() {
             </GraphHeader>
             <GrapContent>
               {barDataChanger(graph.value[select]).map((e) => (
-                <GrapBox>
-                  <Typo margin="20px auto 0 auto" size="20px">
-                    {e.title}
-                  </Typo>
-                  <Barchart barData={e} />
-                </GrapBox>
+                  <GrapBox key={e.title}>
+                    <div style={{ margin: "20px 0 -20px 20px", display: "flex", justifyContent: "start" }}>
+                      <Typo style={{ margin: "0 20px"}}> MAX: {e.values.reduce((acc,cur)=>(acc>cur.performance ? acc : cur.performance), 0)}</Typo>
+                      <Typo>MIN: {e.values.reduce((acc,cur)=>(acc<cur.performance ? acc : cur.performance),Number.POSITIVE_INFINITY)}</Typo>
+                    </div>
+                    <Typo margin="20px auto 0 auto" size="20px">
+                      {e.title}
+                    </Typo>
+                    <Barchart barData={e} />
+                  </GrapBox>
               ))}
             </GrapContent>
           </GraphBody>
@@ -101,12 +105,18 @@ function Graph() {
               ))}
             </GraphHeader>
             <GrapContent>
+              {barDataChanger(graph.value[select]).map((e) => (
               <GrapBox>
                 <Typo margin="20px auto 0 auto" size="20px">
                   {`graph no ${Number(select) + 1}`}
                 </Typo>
+                  <div style={{ display: "flex", justifyContent: "center", margin: "20px auto 0 auto", textAlign: "center" }}>
+                    <Typo style={{ marginRight: "10px" }}>MAX: {e.values.reduce((acc,cur)=>(acc>cur.performance ? acc : cur.performance), 0)}</Typo>
+                    <Typo>MIN: {e.values.reduce((acc,cur)=>(acc<cur.performance ? acc : cur.performance),Number.POSITIVE_INFINITY)}</Typo>
+                  </div>
                 <LineChart lineData={lineDataChanger(graph.value[select])} />
               </GrapBox>
+              ))}
             </GrapContent>
           </GraphBody>
         )}

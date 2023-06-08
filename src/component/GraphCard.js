@@ -2,6 +2,7 @@ import Container from "./Container";
 import styled from "styled-components";
 import Typo from "./Typo";
 import CLink from "./CLink";
+import React from "react";
 
 const Body = styled(Container)`
   width: 27vw;
