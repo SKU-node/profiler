@@ -6,7 +6,7 @@ import Button from "../component/Button";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import graphSlice from "../store/graphSlice";
-import dataChanger from "../utils/dataChangerVer2";
+import dataChanger from "../utils/dataChanger";
 import { useNavigate } from "react-router-dom";
 
 const Body = styled(Container)`
