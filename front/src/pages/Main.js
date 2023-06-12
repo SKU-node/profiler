@@ -29,7 +29,7 @@ function Main() {
           dispatch(graphSlice.actions.setGraph(await result.data.result));
         }
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     };
     fetch();

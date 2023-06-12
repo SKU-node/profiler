@@ -20,11 +20,9 @@ function SignUp() {
   const onsubmit = async () => {
     try {
       const res = await api.post("user/signin", { userId: id, password: password });
-      console.log(res.data);
       dispatch(userSlice.actions.setUser(res.data));
       nav("/main");
     } catch (error) {
-      console.log(error);
       alert(error.response.data);
     }
   };

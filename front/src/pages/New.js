@@ -54,8 +54,7 @@ function New() {
     if (title)
       if (file) {
         const obj = { uuid: user.id, name: title, value: file };
-        const result = await api.post("graph", obj);
-        console.log(result);
+        await api.post("graph", obj);
         nav("../main");
       } else alert("please upload file");
     else alert("please type title of graph");

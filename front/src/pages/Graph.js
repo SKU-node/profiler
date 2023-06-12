@@ -76,7 +76,7 @@ const graphs = {
     return (
       <GraphBody>
         <GraphHeader>
-          {graph.value.map((_, i) => (
+          {graph.map((_, i) => (
             <Typo
               margin="10px"
               size={i - select === 0 ? "20px" : "14px"}
@@ -90,7 +90,7 @@ const graphs = {
           ))}
         </GraphHeader>
         <GrapContent>
-          {barDataChanger(graph.value[select]).map((e, i) => (
+          {barDataChanger(graph[select]).map((e, i) => (
             <GrapBox key={i}>
               <GraphMinMax data={e.values} mode="bar" />
               <Typo margin="20px auto 0 auto" size="20px">
@@ -107,7 +107,7 @@ const graphs = {
     return (
       <GraphBody>
         <GraphHeader>
-          {graph.value.map((_, i) => (
+          {graph.map((_, i) => (
             <Typo
               margin="10px"
               size={i - select === 0 ? "20px" : "14px"}
@@ -125,8 +125,8 @@ const graphs = {
             <Typo margin="20px auto 0 auto" size="20px">
               {`graph no ${Number(select) + 1}`}
             </Typo>
-            <GraphMinMax data={graph.value[select]} mode="line" />
-            <LineChart lineData={lineDataChanger(graph.value[select])} />
+            <GraphMinMax data={graph[select]} mode="line" />
+            <LineChart lineData={lineDataChanger(graph[select])} />
           </GrapBox>
         </GrapContent>
       </GraphBody>
@@ -136,7 +136,7 @@ const graphs = {
     return (
       <GraphBody>
         <GraphHeader>
-          {graph.value.map((_, i) => (
+          {graph.map((_, i) => (
             <Typo
               margin="10px"
               size={i - select === 0 ? "20px" : "14px"}
@@ -154,8 +154,8 @@ const graphs = {
             <Typo margin="20px auto 0 auto" size="20px">
               {`graph no ${Number(select) + 1}`}
             </Typo>
-            <GraphMinMax data={graph.value[select]} mode="line" />
-            <RadarChart radarData={RadarDataChanger(graph.value[select])} />
+            <GraphMinMax data={graph[select]} mode="line" />
+            <RadarChart radarData={RadarDataChanger(graph[select])} />
           </GrapBox>
         </GrapContent>
       </GraphBody>
@@ -174,7 +174,6 @@ function Graph() {
       const result = await api.get(`graph?postId=${param}`);
       const pureValue = result.data.result.value;
       setGraph(dataChanger(pureValue));
-      console.log(graph[select]);
     };
     fetch();
   }, []);
@@ -192,7 +191,7 @@ function Graph() {
           <Button margin="10px 10px 10px 0" value="line" onClick={onLineClick} />
           <Button margin="10px 10px 10px 0" value="radar" onClick={onRadarClick} />
         </Container>
-        {/* {graphs[mode](graph, select, setSelect)} */}
+        {graphs[mode](graph, select, setSelect)}
       </div>
     );
 }
