@@ -13,7 +13,7 @@ async function createGraph(uuid, name, value) {
 }
 
 /**
- * find list by date
+ * find graph by userId
  * @userId User.id
  */
 async function findByUser(userId) {
@@ -27,6 +27,15 @@ async function findByUser(userId) {
 }
 
 /**
+ * find graph by pk
+ * @postId Graph.id
+ */
+async function findByPostId(PostId) {
+  const result = await Graph.findByPk(PostId);
+  return result;
+}
+
+/**
  * find list by date
  * @GraphId Graph.id
  */
@@ -35,4 +44,4 @@ async function findByGraphId(GraphId) {
   return result;
 }
 
-export default { createGraph, findByUser, findByGraphId };
+export default { createGraph, findByUser, findByGraphId, findByPostId };

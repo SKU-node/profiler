@@ -1,19 +1,18 @@
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import Barchart from "../component/Charts/BarChart";
 import LineChart from "../component/Charts/LineChart";
 import RadarChart from "../component/Charts/RadarChart";
-
-import Typo from "../component/Typo";
-import Button from "../component/Button";
-import Container from "../component/Container";
-
 import barDataChanger from "../utils/barDataChanger";
 import lineDataChanger from "../utils/lineDataChanger";
 import RadarDataChanger from "../utils/RadarDataChanger";
+import dataChanger from "../utils/dataChanger";
+import Typo from "../component/Typo";
+import Button from "../component/Button";
+import Container from "../component/Container";
+import api from "../utils/api";
 
 const GraphBody = styled(Container)`
   flex-direction: column;
@@ -167,8 +166,18 @@ const graphs = {
 function Graph() {
   const [mode, setMode] = useState("bar");
   const [select, setSelect] = useState(0);
-  const graphName = useParams();
-  const graph = useSelector((state) => state.graph.data[graphName.id - 1]);
+  const [graph, setGraph] = useState("");
+  const param = useLocation().pathname.split("/")[2];
+
+  useEffect(() => {
+    const fetch = async () => {
+      const result = await api.get(`graph?postId=${param}`);
+      const pureValue = result.data.result.value;
+      setGraph(dataChanger(pureValue));
+      console.log(graph[select]);
+    };
+    fetch();
+  }, []);
 
   const onBarClick = () => setMode("bar");
   const onLineClick = () => setMode("line");
@@ -177,13 +186,13 @@ function Graph() {
   if (graph)
     return (
       <div>
-        <Typo size="32px">{graph.title}</Typo>
+        <Typo size="32px">{}</Typo>
         <Container>
           <Button margin="10px 10px 10px 0" value="bar" onClick={onBarClick} />
           <Button margin="10px 10px 10px 0" value="line" onClick={onLineClick} />
           <Button margin="10px 10px 10px 0" value="radar" onClick={onRadarClick} />
         </Container>
-        {graphs[mode](graph, select, setSelect)}
+        {/* {graphs[mode](graph, select, setSelect)} */}
       </div>
     );
 }

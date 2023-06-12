@@ -15,11 +15,15 @@ graph.post("/", async (req, res) => {
 
 graph.get("/", async (req, res) => {
   try {
+    let result;
     const uuid = req.query.uuid;
-    const result = await graphService.getGraph(uuid);
+
+    if (uuid) result = await graphService.getGraph(uuid);
+    else result = await graphService.findGraph(req.query.postId);
+
     res.status(200).json({ result: result });
   } catch (error) {
-    res.send(error);
+    res.status(403).send(error);
   }
 });
 
