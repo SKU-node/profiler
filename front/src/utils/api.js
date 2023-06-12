@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const DOMAIN = "127.0.0.1";
+const DOMAIN = "localhost";
 const API_BASE_URL = `http://${DOMAIN}/api`;
 
 const api = axios.create({

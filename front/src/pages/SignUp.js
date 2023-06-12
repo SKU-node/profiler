@@ -17,16 +17,17 @@ function SignUp() {
   const onsubmit = async () => {
     try {
       let result;
-      const is_unique = await api.get(`user?userId=${id}`);
-      if (is_unique) {
-        if (password === cPassword) result = await api.post("signup", { userId: id, password: password });
-        else result = "check password again!!";
-      } else result = "duplicated id!!";
+
+      if (password === cPassword) {
+        const is_unique = await api.get(`user?userId=${id}`);
+        if (is_unique) result = (await api.post("user/signup", { userId: id, password: password })).data.result;
+        else result = "duplicated id!!";
+      } else result = "check password again!!";
 
       alert(result);
-      if (result === "complete") nav("/");
+      if (result === "complete") nav("/main");
     } catch (error) {
-      console.log(error);
+      alert(error.response.data);
     }
   };
 
