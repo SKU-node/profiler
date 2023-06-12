@@ -1,0 +1,2 @@
+GET http://localhost/api/graph?uuid=3ea43689-8cde-45d1-a4e0-3618466facb0
+Content-Type: application/json

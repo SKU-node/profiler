@@ -1,13 +1,13 @@
-import Container from "../component/Container";
 import styled from "styled-components";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+import Container from "../component/Container";
 import TextBox from "../component/TextBox";
 import Typo from "../component/Typo";
 import Button from "../component/Button";
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import graphSlice from "../store/graphSlice";
-import dataChanger from "../utils/dataChangerVer2";
-import { useNavigate } from "react-router-dom";
+import api from "../utils/api";
 
 const Body = styled(Container)`
   margin-top: 5vh;
@@ -35,8 +35,7 @@ const DataHeader = styled(Container)`
 `;
 
 function New() {
-  const graph = useSelector((state) => state.graph.data);
-  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
   const nav = useNavigate();
   const [file, setFile] = useState("");
   const [title, setTitle] = useState("");
@@ -51,16 +50,14 @@ function New() {
     else reader.readAsText(e.target.files[0]);
   };
 
-  const onSubmitClick = () => {
-    if (file && title) {
-      const result = dataChanger(file);
-      const date = new Date();
-      const today = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
-
-      const obj = { title: title, value: result, created_at: today, updated_at: today };
-      dispatch(graphSlice.actions.setGraph([...graph, obj]));
-      nav("../main");
-    }
+  const onSubmitClick = async () => {
+    if (title)
+      if (file) {
+        const obj = { uuid: user.id, name: title, value: file };
+        await api.post("graph", obj);
+        nav("../main");
+      } else alert("please upload file");
+    else alert("please type title of graph");
   };
 
   return (

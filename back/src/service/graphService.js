@@ -25,10 +25,23 @@ async function getGraph(userUUID) {
   }
 }
 
+async function findGraph(postId) {
+  try {
+    const values = await graphRepository.findByGraphId(postId);
+    const result = {
+      name: values.name,
+      value: values.value,
+    };
+    return result;
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function deleteGraph(graphId) {
   const result = await graphRepository.findByGraphId(graphId);
   await result.destroy();
   return "complete";
 }
 
-export default { writeGraph, getGraph, deleteGraph };
+export default { writeGraph, getGraph, deleteGraph, findGraph };

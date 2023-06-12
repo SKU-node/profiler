@@ -1,76 +1,62 @@
-function dataChanger(str) {
-  const cookie = str; // file.file값 cookie에 대입
-  let num = 0;
-  const arr1 = cookie.split("\n"); // arr1에 \n으로 구분된 배열 생성
-  const arr2 = [];
+import { GraphValue } from "./classes";
 
-  // arr1의 각 요소에 앞뒤 공백을 없앤 후 모든 공백을 공백 한칸으로 변경 후 arr2에 대입
-  for (let i = 0; i < arr1.length; i++) {
-    arr2.push(arr1[i].trim().replace(/\s+/g, " "));
-  }
+/**
+ * @tasks  tasks 에 해당하는 arr
+ * @numbers numbers 에 해당하는 arr
+ * @cores cores 에 해당하는 arr
+ */
+function graphMaker(tasks, numbers, cores) {
+  // 그래프 하나에 해당하는 tasks, numbers, core를 전달받아 데이터 정제하는 함수
 
-  // 수행 결과가 \n으로 구분돼서 측정 값 사이에 ''를 요소로 갖는 인덱스가 생성돼
-  // '' 전 까지의 인덱스 수를 num에 저장, num은 표 하나의 길이
-  while (arr2[num] !== "") {
-    num++;
-  }
+  const graph = []; // 결과값 ( 리턴값 )
+  const taskLeng = tasks.length; // task 에 shift 를 쓰므로, lenth 값은 유동적으로 변하기에, 고정
+  const coreLeng = cores.length; // core length, 즉 코어 갯수를 말한다.
 
-  //core 수는 task줄을 제외한 num-1이 되고 Task 수는 첫 인덱스를 공백으로 구분한 배열의 길이가 됨
-  let CoreNum = num - 1;
-  let TaskNum = arr2[0].split(" ").length;
-
-  // ''가 요소인 인덱스를 제외해 arr3에 대입
-  const arr3 = arr2.filter((word) => word !== "");
-
-  // TaskId는 0인덱스의 공백을 제외하여 생성한 배열의 각 인덱스의 요소가 됨
-  let TaskId = arr3[0].split(" ");
-
-  // CoreId는 1~CoreNum까지의 인덱스를 공백을 제외한 배열로 생성시 0번째 인덱스 요소가 됨
-  let CoreId = [];
-  for (let i = 1; i <= CoreNum; i++) {
-    CoreId.push(arr3[i].split(" ")[0]);
-  }
-
-  // Values는 측정 값, 코어가 속한 인덱스에서 CoreId가 있는 0번째 인덱스를 제외한 1~TaskNnum까지의 값이 된다
-  let Values = [];
-  for (let i = 1; arr3[i] !== null; i += CoreNum + 1) {
-    let arr4 = [];
-    for (let j = 0; j < CoreNum; j++) {
-      let arr5 = arr3[i + j].split(" ").splice(1, TaskNum);
-      arr4.push(arr5);
+  for (let j = 0; j < taskLeng; j++) {
+    const number = []; // 임시 메모리
+    for (let i = 0; i < coreLeng; i++) {
+      const t = j + i * coreLeng; // 태스크 의 코어 별 점수를 할당
+      const v = numbers.slice(t, t + 1);
+      number.push(...v);
     }
-    Values.push(arr4);
+    graph.push(new GraphValue(tasks.shift(), number));
+    // 태스크와 태스크테 해당하는 점수들 할당하여 생성된 GraphValue 를 결과값에 push
   }
 
-  let Data = [];
+  return graph;
+}
 
-  // DataNum은 수행횟수를 구분한 값 InputFile은 10번의 측정을 하였고 몇번째 측정인지를 알기 위해 추가
-  let DataNum = 0;
-  let a = 0;
-  while (arr3[a] !== null) {
-    a += num;
-    DataNum++;
-  }
+/**
+ * @input  input.txt 에 해당하는 string
+ */
+function dataChanger(input) {
+  const tasks = []; // 큐
+  const cores = []; // 큐
+  const numbers = []; // 큐
+  const arr = input.replaceAll(/[\t\n]/g, "&").split("&");
+  const result = [];
+  let flag = 0; // 0 이면 task, 1 이면 core, number
 
-  //각 배열에 TaskId와 CoreId에 대응되는 측정값과 몇번 째 측정값인지를 추가해서 data배열에 추가
-  for (let i = 0; i < DataNum; i++) {
-    const arr6 = [];
-    for (let j = 0; j < TaskNum; j++) {
-      let Dict1 = { Id: TaskId[j] };
-      Dict1["DataNum"] = i;
-      const arr7 = [];
-      for (let k = 0; k < CoreNum; k++) {
-        let Dict2 = {};
-        Dict2[CoreId[k]] = Values[i][j][k];
-        arr7.push(Dict2);
+  arr.forEach((e, i) => {
+    if (/task/.test(e)) {
+      if (flag === 0) tasks.push(e); // 아직 그래프를 전부 읽지 못한 경우,
+      else {
+        // 그래프 하나에 해당하는 데이터 를 전부 읽고, 다음 그래프에 도달한 경우
+        result.push(graphMaker(tasks, numbers, cores));
+        cores.splice(0); // 데이터를 사용하였으므로 초기화
+        tasks.push(e); // 데이터를 사용하였으므로 초기화
+        numbers.splice(0); // 데이터를 사용하였으므로 초기화
+        flag = 0; // 플래그 초기화
       }
-      Dict1["Values"] = arr7;
-      arr6.push(Dict1);
-    }
-    Data.push(arr6);
-  }
+    } else if (/core/.test(e)) {
+      cores.push(e); //
+      flag = 1;
+    } else if (/[0-9]/.test(e)) numbers.push(e);
 
-  return Data;
+    if (i === arr.length - 1) result.push(graphMaker(tasks, numbers, cores)); // 마지막 그래프를 전부 읽은 경우
+  });
+
+  return result;
 }
 
 export default dataChanger;

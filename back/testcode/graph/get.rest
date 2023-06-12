@@ -1,2 +1,0 @@
-GET http://localhost:8080/graph?uuid=3b4ff7f4-0858-4999-8f2b-fea649c8d106
-Content-Type: application/json

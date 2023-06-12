@@ -1,19 +1,18 @@
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import Barchart from "../component/Charts/BarChart";
 import LineChart from "../component/Charts/LineChart";
 import RadarChart from "../component/Charts/RadarChart";
-
-import Typo from "../component/Typo";
-import Button from "../component/Button";
-import Container from "../component/Container";
-
 import barDataChanger from "../utils/barDataChanger";
 import lineDataChanger from "../utils/lineDataChanger";
 import RadarDataChanger from "../utils/RadarDataChanger";
+import dataChanger from "../utils/dataChanger";
+import Typo from "../component/Typo";
+import Button from "../component/Button";
+import Container from "../component/Container";
+import api from "../utils/api";
 
 const GraphBody = styled(Container)`
   flex-direction: column;
@@ -77,7 +76,7 @@ const graphs = {
     return (
       <GraphBody>
         <GraphHeader>
-          {graph.value.map((_, i) => (
+          {graph.map((_, i) => (
             <Typo
               margin="10px"
               size={i - select === 0 ? "20px" : "14px"}
@@ -91,7 +90,7 @@ const graphs = {
           ))}
         </GraphHeader>
         <GrapContent>
-          {barDataChanger(graph.value[select]).map((e, i) => (
+          {barDataChanger(graph[select]).map((e, i) => (
             <GrapBox key={i}>
               <GraphMinMax data={e.values} mode="bar" />
               <Typo margin="20px auto 0 auto" size="20px">
@@ -108,7 +107,7 @@ const graphs = {
     return (
       <GraphBody>
         <GraphHeader>
-          {graph.value.map((_, i) => (
+          {graph.map((_, i) => (
             <Typo
               margin="10px"
               size={i - select === 0 ? "20px" : "14px"}
@@ -126,8 +125,8 @@ const graphs = {
             <Typo margin="20px auto 0 auto" size="20px">
               {`graph no ${Number(select) + 1}`}
             </Typo>
-            <GraphMinMax data={graph.value[select]} mode="line" />
-            <LineChart lineData={lineDataChanger(graph.value[select])} />
+            <GraphMinMax data={graph[select]} mode="line" />
+            <LineChart lineData={lineDataChanger(graph[select])} />
           </GrapBox>
         </GrapContent>
       </GraphBody>
@@ -137,7 +136,7 @@ const graphs = {
     return (
       <GraphBody>
         <GraphHeader>
-          {graph.value.map((_, i) => (
+          {graph.map((_, i) => (
             <Typo
               margin="10px"
               size={i - select === 0 ? "20px" : "14px"}
@@ -155,8 +154,8 @@ const graphs = {
             <Typo margin="20px auto 0 auto" size="20px">
               {`graph no ${Number(select) + 1}`}
             </Typo>
-            <GraphMinMax data={graph.value[select]} mode="line" />
-            <RadarChart radarData={RadarDataChanger(graph.value[select])} />
+            <GraphMinMax data={graph[select]} mode="line" />
+            <RadarChart radarData={RadarDataChanger(graph[select])} />
           </GrapBox>
         </GrapContent>
       </GraphBody>
@@ -167,8 +166,17 @@ const graphs = {
 function Graph() {
   const [mode, setMode] = useState("bar");
   const [select, setSelect] = useState(0);
-  const graphName = useParams();
-  const graph = useSelector((state) => state.graph.data[graphName.id - 1]);
+  const [graph, setGraph] = useState("");
+  const param = useLocation().pathname.split("/")[2];
+
+  useEffect(() => {
+    const fetch = async () => {
+      const result = await api.get(`graph?postId=${param}`);
+      const pureValue = result.data.result.value;
+      setGraph(dataChanger(pureValue));
+    };
+    fetch();
+  }, []);
 
   const onBarClick = () => setMode("bar");
   const onLineClick = () => setMode("line");
@@ -177,7 +185,7 @@ function Graph() {
   if (graph)
     return (
       <div>
-        <Typo size="32px">{graph.title}</Typo>
+        <Typo size="32px">{}</Typo>
         <Container>
           <Button margin="10px 10px 10px 0" value="bar" onClick={onBarClick} />
           <Button margin="10px 10px 10px 0" value="line" onClick={onLineClick} />

@@ -48,23 +48,24 @@ const Contents = styled(CardBox)`
   align-items: flex-start;
 `;
 
-function GraphCard({ data, index }) {
-  if (data)
+function GraphCard({ data }) {
+  if (data) {
+    const create = data.createdAt.split("").filter((_, i) => i < 10);
+    const udpate = data.updatedAt.split("").filter((_, i) => i < 10);
     return (
-      <CLink to={`../graph/${index}`}>
+      <CLink to={`../graph/${data.postId}`}>
         <Body dir="column">
           <Title>
-            <TitleTypo size="24px">{data.title}</TitleTypo>
+            <TitleTypo size="24px">{data.name}</TitleTypo>
           </Title>
           <Contents dir="column">
-            <ContTypo size="24px">{data.graphs}</ContTypo>
-            <ContTypo size="24px">{data.updatedAt}</ContTypo>
-            <ContTypo size="24px">{data.createdAt}</ContTypo>
+            <ContTypo size="18px">CREATED_AT : {create}</ContTypo>
+            <ContTypo size="18px">UPDATED_AT : {udpate}</ContTypo>
           </Contents>
         </Body>
       </CLink>
     );
-  else
+  } else
     return (
       <CLink to="../new">
         <Blank>

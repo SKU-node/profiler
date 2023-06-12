@@ -1,0 +1,2 @@
+GET http://localhost/api/graph?postId=125f7570-3b30-47f0-b881-e071f716617c
+Content-Type: application/json
