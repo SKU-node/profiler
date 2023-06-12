@@ -48,18 +48,17 @@ const Contents = styled(CardBox)`
   align-items: flex-start;
 `;
 
-function GraphCard({ data, index }) {
+function GraphCard({ data }) {
   if (data)
     return (
-      <CLink to={`../graph/${index}`}>
+      <CLink to={`../graph/${data.postId}`}>
         <Body dir="column">
           <Title>
-            <TitleTypo size="24px">{data.title}</TitleTypo>
+            <TitleTypo size="24px">{data.name}</TitleTypo>
           </Title>
           <Contents dir="column">
-            <ContTypo size="24px">{data.graphs}</ContTypo>
-            <ContTypo size="24px">{data.updatedAt}</ContTypo>
-            <ContTypo size="24px">{data.createdAt}</ContTypo>
+            <ContTypo size="24px">CREATED_AT : {data.createdAt}</ContTypo>
+            <ContTypo size="24px">UPDATED_AT : {data.updatedAt}</ContTypo>
           </Contents>
         </Body>
       </CLink>
