@@ -6,7 +6,7 @@ services:
   profiler:
     build: ./front
     ports:
-      - "6638:6638"
+      - "3000:3000"
     volumes:
       - ./front:/profiler
     command: "yarn start"
@@ -36,3 +36,8 @@ services:
       timeout: 60s
       retries: 5
       start_period: 80s
+
+  adminer:
+    image: adminer
+    ports:
+      - 6638:8080

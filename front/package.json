@@ -3,8 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "export PORT=6638 && react-scripts start",
-    "start:nodemon": "nodemon --exec \"yarn start\" --watch src",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test"
   },
