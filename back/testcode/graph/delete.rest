@@ -1,4 +1,4 @@
-DELETE http://localhost:8080/graph
+DELETE http://localhost/api/graph
 Content-Type: application/json
 
 {
