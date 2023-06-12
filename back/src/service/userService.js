@@ -1,5 +1,16 @@
 import userRepository from "../repositories/userRepository.js";
 
+async function userDuplicateCheck(userId) {
+  try {
+    const userData = await userRepository.findByUserId(userId);
+
+    if (userData) throw new Error("duplicatedUser");
+    else return true;
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function signUp(userId, password) {
   try {
     const result = await userRepository.createUser(userId, password);
