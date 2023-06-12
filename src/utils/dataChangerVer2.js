@@ -23,8 +23,6 @@ function graphMaker(tasks, numbers, cores) {
     // 태스크와 태스크테 해당하는 점수들 할당하여 생성된 GraphValue 를 결과값에 push
   }
 
-  console.log(numbers);
-
   return graph;
 }
 
