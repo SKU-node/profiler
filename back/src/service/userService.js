@@ -24,18 +24,18 @@ async function signIn(userId, password) {
   try {
     const userData = await userRepository.findByUserId(userId);
 
-    const result = {
-      id: userData[0].dataValues.id,
-      userId: userData[0].dataValues.userId,
-    };
+    if (userData) {
+      const result = {
+        id: userData.dataValues.id,
+        userId: userData.dataValues.userId,
+      };
 
-    console.log(result);
-
-    if (userData[0].password === password) return result;
-    else throw new Error("wrong value");
+      if (userData.password === password) return result;
+    }
+    throw new Error("wrong value");
   } catch (error) {
     throw error;
   }
 }
 
-export default { signIn, signUp };
+export default { userDuplicateCheck, signIn, signUp };
