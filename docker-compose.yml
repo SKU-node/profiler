@@ -3,13 +3,26 @@ volumes:
   build_folder: null
 
 services:
-  profiler:
-    build: ./front
-    ports:
-      - "3000:3000"
+  frontend:
+    build:
+      context: ./front
+      args:
+        API_URL: "*"
+    environment:
+      - REACT_APP_BACKEND_URL=http://localhost:8000
     volumes:
-      - ./front:/profiler
-    command: "yarn start"
+      - ./front/:/frontend
+      - build_folder:/frontend/build
+    tty: true
+
+  nginx:
+    build: ./nginx
+    ports:
+      - 80:80
+    volumes:
+      - build_folder:/var/www/frontend
+    depends_on:
+      - frontend
 
   backend:
     build: ./back
