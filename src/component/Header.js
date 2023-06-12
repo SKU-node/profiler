@@ -1,12 +1,16 @@
-import styled from "styled-components";
-import Typo from "./Typo";
-import Container from "./Container";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import CLink from "./CLink";
 import { useEffect } from "react";
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import styled from "styled-components";
+
+import Typo from "./Typo";
+import Container from "./Container";
+import CLink from "./CLink";
+import userSlice from "../store/userSlice";
 
 const UnderLiner = styled.div`
+  display: flex;
   border-bottom: 4px solid black;
   width: 90%;
 `;
@@ -25,6 +29,43 @@ const Menu = styled(HTypo)`
   font-size: 30px;
   cursor: pointer;
 `;
+
+const UserMenuBody = styled(Container)`
+  margin: 0 0 0 auto;
+`;
+
+function UserMenu() {
+  const id = useSelector((state) => state.user.id);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    console.log(id);
+  }, [id]);
+
+  const onLogOut = () => {
+    dispatch(userSlice.actions.setUser(""));
+  };
+
+  if (id)
+    return (
+      <UserMenuBody onClick={onLogOut}>
+        <CLink margin="2.4vh 0 0 auto">
+          <HTypo size="20px">LOGOUT</HTypo>
+        </CLink>
+      </UserMenuBody>
+    );
+  else
+    return (
+      <UserMenuBody>
+        <CLink to="/login" margin="2.4vh 0 0 auto">
+          <HTypo size="20px">LOGIN</HTypo>
+        </CLink>
+        <CLink to="/signup" margin="2.4vh 0 0 2vw">
+          <HTypo size="20px">SIGN UP</HTypo>
+        </CLink>
+      </UserMenuBody>
+    );
+}
 
 function Header() {
   const nav = useNavigate();
@@ -47,6 +88,7 @@ function Header() {
         <CLink to="/main">
           <HTypo size="50px">PF STALKER</HTypo>
         </CLink>
+        <UserMenu />
       </UnderLiner>
       <Container dir="row">
         {loc.map((v, i) => (
