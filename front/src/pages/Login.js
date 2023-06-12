@@ -25,7 +25,7 @@ function SignUp() {
       nav("/main");
     } catch (error) {
       console.log(error);
-      alert(error.response);
+      alert(error.response.data);
     }
   };
 
