@@ -11,7 +11,7 @@ function setCookie(input, exp) {
 
 function getCookie() {
   const value = document.cookie.match("(^|;) ?PF=([^;]*)(;|$)");
-  return value ? value[2].split("/") : null;
+  return value ? value[2].split("/") : ["", ""];
 }
 
 function expCookie() {

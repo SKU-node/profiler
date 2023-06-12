@@ -4,23 +4,23 @@ import { getCookie, setCookie, expCookie } from "../utils/cookie";
 const userSlice = createSlice({
   name: "user",
   initialState: {
+    userId: "",
     id: "",
-    uuid: "",
   },
   reducers: {
     getUser: (state) => {
-      const [id, uuid] = getCookie() || ["", ""];
+      const [userId, id] = getCookie();
+      state.userId = userId;
       state.id = id;
-      state.uuid = uuid;
     },
     setUser: (state, action) => {
+      state.userId = action.payload.userId;
       state.id = action.payload.id;
-      state.uuid = action.payload.uuid;
-      setCookie([state.id, state.uuid], 24);
+      setCookie([state.userId, state.id], 24);
     },
     deleteUser: (state) => {
+      state.userId = "";
       state.id = "";
-      state.uuid = "";
       expCookie();
     },
   },
