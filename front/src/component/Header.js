@@ -35,22 +35,25 @@ const UserMenuBody = styled(Container)`
 `;
 
 function UserMenu() {
-  const id = useSelector((state) => state.user.id);
+  const userId = useSelector((state) => state.user.userId);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(id);
-  }, [id]);
+    dispatch(userSlice.actions.getUser(""));
+  }, []);
 
   const onLogOut = () => {
-    dispatch(userSlice.actions.setUser(""));
+    dispatch(userSlice.actions.deleteUser(""));
   };
 
-  if (id)
+  if (userId)
     return (
-      <UserMenuBody onClick={onLogOut}>
-        <CLink margin="2.4vh 0 0 auto">
+      <UserMenuBody>
+        <CLink onClick={onLogOut} margin="2.4vh 4vh 0 auto">
           <HTypo size="20px">LOGOUT</HTypo>
+        </CLink>
+        <CLink margin="2.4vh 0 0 auto">
+          <HTypo size="20px">USERNAME : {userId}</HTypo>
         </CLink>
       </UserMenuBody>
     );
