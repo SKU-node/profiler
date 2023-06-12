@@ -16,7 +16,7 @@ const userSlice = createSlice({
     setUser: (state, action) => {
       state.id = action.payload.id;
       state.uuid = action.payload.uuid;
-      setCookie([id, uuid], 24);
+      setCookie([state.id, state.uuid], 24);
     },
     deleteUser: (state) => {
       state.id = "";
