@@ -49,7 +49,9 @@ const Contents = styled(CardBox)`
 `;
 
 function GraphCard({ data }) {
-  if (data)
+  if (data) {
+    const create = data.createdAt.split("").filter((_, i) => i < 10);
+    const udpate = data.updatedAt.split("").filter((_, i) => i < 10);
     return (
       <CLink to={`../graph/${data.postId}`}>
         <Body dir="column">
@@ -57,13 +59,13 @@ function GraphCard({ data }) {
             <TitleTypo size="24px">{data.name}</TitleTypo>
           </Title>
           <Contents dir="column">
-            <ContTypo size="24px">CREATED_AT : {data.createdAt}</ContTypo>
-            <ContTypo size="24px">UPDATED_AT : {data.updatedAt}</ContTypo>
+            <ContTypo size="18px">CREATED_AT : {create}</ContTypo>
+            <ContTypo size="18px">UPDATED_AT : {udpate}</ContTypo>
           </Contents>
         </Body>
       </CLink>
     );
-  else
+  } else
     return (
       <CLink to="../new">
         <Blank>
