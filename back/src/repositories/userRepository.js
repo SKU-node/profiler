@@ -22,8 +22,7 @@ async function createUser(userId, password) {
  * @userId string
  */
 async function findByUserId(userId) {
-  console.log(userId);
-  const result = await User.findAll({
+  const result = await User.findOne({
     where: {
       userId: { [Op.eq]: userId },
     },
