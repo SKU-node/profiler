@@ -11,6 +11,7 @@ const TextBox = styled.input`
   font-family: InterBold;
   font-size: 24px;
   padding-left: 1vw;
+  margin: ${(props) => props.margin};
 
   ::placeholder {
     color: #9e9e9e;
