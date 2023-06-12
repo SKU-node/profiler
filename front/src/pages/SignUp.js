@@ -1,9 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import Button from "../component/Button";
 import Container from "../component/Container";
 import TextBox from "../component/TextBox";
 import api from "../utils/api";
-import { useNavigate } from "react-router-dom";
 
 function SignUp() {
   const [id, setId] = useState("");
@@ -18,11 +19,13 @@ function SignUp() {
     try {
       let result;
 
-      if (password === cPassword) {
-        const is_unique = await api.get(`user?userId=${id}`);
-        if (is_unique) result = (await api.post("user/signup", { userId: id, password: password })).data.result;
-        else result = "duplicated id!!";
-      } else result = "check password again!!";
+      if (id && password && cPassword)
+        if (password === cPassword) {
+          const is_unique = await api.get(`user?userId=${id}`);
+          if (is_unique) result = (await api.post("user/signup", { userId: id, password: password })).data.result;
+          else result = "duplicated id!!";
+        } else result = "check password again!!";
+      else result = "values can't be null!!";
 
       alert(result);
       if (result === "complete") nav("/main");
