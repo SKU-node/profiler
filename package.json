@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@nivo/bar": "^0.55.0",
-    "@nivo/core": "^0.80.0",
-    "@nivo/line": "^0.55.0",
+    "@nivo/bar": "^0.83.0",
+    "@nivo/core": "^0.83.0",
+    "@nivo/line": "^0.83.0",
     "@reduxjs/toolkit": "^1.9.3",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -20,6 +20,7 @@
   },
   "scripts": {
     "start": "export PORT=6638 && react-scripts start",
+    "start:nodemon": "nodemon --exec \"yarn start\" --watch src",
     "build": "react-scripts build",
     "test": "react-scripts test"
   },
@@ -40,5 +41,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
   }
 }

@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Barchart from "../component/Charts/BarChart";
 import LineChart from "../component/Charts/LineChart";
@@ -16,7 +16,7 @@ const GraphBody = styled(Container)`
   background-color: #dedede;
   border-radius: 10px;
   width: 80vw;
-  height: 60vh;
+  height: 64vh;
 `;
 
 const GraphHeader = styled(Container)`
@@ -29,7 +29,7 @@ const GraphHeader = styled(Container)`
 
 const GrapContent = styled(Container)`
   width: 80vw;
-  height: 56vh;
+  height: 60vh;
   overflow-x: auto;
   overflow-y: hidden;
 `;
@@ -39,6 +39,31 @@ const GrapBox = styled(Container)`
   width: 80vw;
   height: 50vh;
 `;
+
+function GraphMinMax({ mode, data }) {
+  const [max, setMax] = useState(0);
+  const [min, setMin] = useState(Number.POSITIVE_INFINITY);
+
+  useEffect(() => {
+    if (mode) {
+      const arr = data.map((e) => e.performance);
+      setMin(Math.min(...arr));
+      setMax(Math.max(...arr));
+    } else {
+      const arr = [];
+      data.forEach((e) => arr.push(...e.values));
+      setMin(Math.min(...arr));
+      setMax(Math.max(...arr));
+    }
+  }, [data, mode]);
+
+  return (
+    <Container margin="20px 0 -20px 20px">
+      <Typo margin="0 20px"> MAX: {max}</Typo>
+      <Typo>MIN: {min}</Typo>
+    </Container>
+  );
+}
 
 function Graph() {
   const [mode, setMode] = useState(true); // true === bar mode
@@ -76,6 +101,7 @@ function Graph() {
             <GrapContent>
               {barDataChanger(graph.value[select]).map((e) => (
                 <GrapBox>
+                  <GraphMinMax data={e.values} mode={mode} />
                   <Typo margin="20px auto 0 auto" size="20px">
                     {e.title}
                   </Typo>
@@ -105,6 +131,7 @@ function Graph() {
                 <Typo margin="20px auto 0 auto" size="20px">
                   {`graph no ${Number(select) + 1}`}
                 </Typo>
+                <GraphMinMax data={graph.value[select]} mode={mode} />
                 <LineChart lineData={lineDataChanger(graph.value[select])} />
               </GrapBox>
             </GrapContent>

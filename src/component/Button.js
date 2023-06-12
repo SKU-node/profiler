@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import fonts from "../assets/fonts/fonts";
+import React from "react";
 
 const Body = styled.div`
   ${fonts}
