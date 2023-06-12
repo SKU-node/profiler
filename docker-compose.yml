@@ -4,9 +4,9 @@ volumes:
 
 services:
   profiler:
-    build: ./
+    build: ./front
     ports:
       - "6638:6638"
     volumes:
-      - .:/profiler
+      - ./front:/profiler
     command: "yarn start"
