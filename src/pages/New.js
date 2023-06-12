@@ -71,8 +71,10 @@ function New() {
           <DataHeader>
             <DataTitle>DATA</DataTitle>
           </DataHeader>
-          <input type="file" onChange={onFileChange} />
-          <Button onClick={onSubmitClick} value="SUBMIT" />
+          <Container dir="column" margin="18vh 0 0 18vw">
+            <input type="file" onChange={onFileChange} />
+            <Button margin="3vw" onClick={onSubmitClick} value="SUBMIT" />
+          </Container>
         </DataBody>
       </Body>
     </Container>
