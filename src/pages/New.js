@@ -46,8 +46,9 @@ function New() {
   const onFileChange = (e) => {
     const reader = new FileReader();
     reader.onload = (e) => setFile(e.target.result);
-    if (file.length === 0) return;
-    reader.readAsText(e.target.files[0]);
+
+    if (typeof e.target.files[0] !== "object") return;
+    else reader.readAsText(e.target.files[0]);
   };
 
   const onSubmitClick = () => {
@@ -70,8 +71,10 @@ function New() {
           <DataHeader>
             <DataTitle>DATA</DataTitle>
           </DataHeader>
-          <input type="file" onChange={onFileChange} />
-          <Button onClick={onSubmitClick} value="SUBMIT" />
+          <Container dir="column" margin="18vh 0 0 18vw">
+            <input type="file" onChange={onFileChange} />
+            <Button margin="3vw" onClick={onSubmitClick} value="SUBMIT" />
+          </Container>
         </DataBody>
       </Body>
     </Container>

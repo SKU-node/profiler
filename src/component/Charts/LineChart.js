@@ -2,12 +2,6 @@ import * as React from "react";
 import { ResponsiveLine } from "@nivo/line";
 
 function LineChart({ lineData }) {
-  const style = {
-    margin: { top: 50, right: 50, bottom: 50, left: 50 },
-    colors: ["orange"],
-    padding: 0.3,
-  };
-
   const bottom = {
     tickSize: 5,
     tickPadding: 5,

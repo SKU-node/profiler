@@ -2,13 +2,18 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+
 import Barchart from "../component/Charts/BarChart";
 import LineChart from "../component/Charts/LineChart";
+import RadarChart from "../component/Charts/RadarChart";
+
 import Typo from "../component/Typo";
 import Button from "../component/Button";
 import Container from "../component/Container";
+
 import barDataChanger from "../utils/barDataChanger";
 import lineDataChanger from "../utils/lineDataChanger";
+import RadarDataChanger from "../utils/RadarDataChanger";
 
 const GraphBody = styled(Container)`
   flex-direction: column;
@@ -45,16 +50,18 @@ function GraphMinMax({ mode, data }) {
   const [min, setMin] = useState(Number.POSITIVE_INFINITY);
 
   useEffect(() => {
-    if (mode) {
-      const arr = data.map((e) => e.performance);
-      setMin(Math.min(...arr));
-      setMax(Math.max(...arr));
-    } else {
-      const arr = [];
-      data.forEach((e) => arr.push(...e.values));
-      setMin(Math.min(...arr));
-      setMax(Math.max(...arr));
-    }
+    const arr = [];
+
+    const arrSetter = {
+      bar: () => data.forEach((e) => arr.push(e.performance)),
+      line: () => data.forEach((e) => arr.push(...e.values)),
+      radar: () => data.forEach((e) => arr.push(...e.values)),
+    };
+
+    arrSetter[mode]();
+
+    setMin(Math.min(...arr));
+    setMax(Math.max(...arr));
   }, [data, mode]);
 
   return (
@@ -65,14 +72,107 @@ function GraphMinMax({ mode, data }) {
   );
 }
 
+const graphs = {
+  bar: (graph, select, setSelect) => {
+    return (
+      <GraphBody>
+        <GraphHeader>
+          {graph.value.map((_, i) => (
+            <Typo
+              margin="10px"
+              size={i - select === 0 ? "20px" : "14px"}
+              id={i}
+              cursor="pointer"
+              onClick={(e) => setSelect(e.target.id)}
+              key={i}
+            >
+              data {i + 1}
+            </Typo>
+          ))}
+        </GraphHeader>
+        <GrapContent>
+          {barDataChanger(graph.value[select]).map((e, i) => (
+            <GrapBox key={i}>
+              <GraphMinMax data={e.values} mode="bar" />
+              <Typo margin="20px auto 0 auto" size="20px">
+                {e.title}
+              </Typo>
+              <Barchart barData={e} />
+            </GrapBox>
+          ))}
+        </GrapContent>
+      </GraphBody>
+    );
+  },
+  line: (graph, select, setSelect) => {
+    return (
+      <GraphBody>
+        <GraphHeader>
+          {graph.value.map((_, i) => (
+            <Typo
+              margin="10px"
+              size={i - select === 0 ? "20px" : "14px"}
+              id={i}
+              cursor="pointer"
+              onClick={(e) => setSelect(e.target.id)}
+              key={i}
+            >
+              data {i + 1}
+            </Typo>
+          ))}
+        </GraphHeader>
+        <GrapContent>
+          <GrapBox>
+            <Typo margin="20px auto 0 auto" size="20px">
+              {`graph no ${Number(select) + 1}`}
+            </Typo>
+            <GraphMinMax data={graph.value[select]} mode="line" />
+            <LineChart lineData={lineDataChanger(graph.value[select])} />
+          </GrapBox>
+        </GrapContent>
+      </GraphBody>
+    );
+  },
+  radar: (graph, select, setSelect) => {
+    return (
+      <GraphBody>
+        <GraphHeader>
+          {graph.value.map((_, i) => (
+            <Typo
+              margin="10px"
+              size={i - select === 0 ? "20px" : "14px"}
+              id={i}
+              cursor="pointer"
+              onClick={(e) => setSelect(e.target.id)}
+              key={i}
+            >
+              data {i + 1}
+            </Typo>
+          ))}
+        </GraphHeader>
+        <GrapContent>
+          <GrapBox>
+            <Typo margin="20px auto 0 auto" size="20px">
+              {`graph no ${Number(select) + 1}`}
+            </Typo>
+            <GraphMinMax data={graph.value[select]} mode="line" />
+            <RadarChart radarData={RadarDataChanger(graph.value[select])} />
+          </GrapBox>
+        </GrapContent>
+      </GraphBody>
+    );
+  },
+};
+
 function Graph() {
-  const [mode, setMode] = useState(true); // true === bar mode
+  const [mode, setMode] = useState("bar");
   const [select, setSelect] = useState(0);
   const graphName = useParams();
   const graph = useSelector((state) => state.graph.data[graphName.id - 1]);
 
-  const onBarClick = () => setMode(true);
-  const onLineClick = () => setMode(false);
+  const onBarClick = () => setMode("bar");
+  const onLineClick = () => setMode("line");
+  const onRadarClick = () => setMode("radar");
 
   if (graph)
     return (
@@ -81,62 +181,9 @@ function Graph() {
         <Container>
           <Button margin="10px 10px 10px 0" value="bar" onClick={onBarClick} />
           <Button margin="10px 10px 10px 0" value="line" onClick={onLineClick} />
+          <Button margin="10px 10px 10px 0" value="radar" onClick={onRadarClick} />
         </Container>
-        {mode ? (
-          <GraphBody>
-            <GraphHeader>
-              {graph.value.map((_, i) => (
-                <Typo
-                  margin="10px"
-                  size={i - select === 0 ? "20px" : "14px"}
-                  id={i}
-                  cursor="pointer"
-                  onClick={(e) => setSelect(e.target.id)}
-                  key={i}
-                >
-                  data {i + 1}
-                </Typo>
-              ))}
-            </GraphHeader>
-            <GrapContent>
-              {barDataChanger(graph.value[select]).map((e) => (
-                <GrapBox>
-                  <GraphMinMax data={e.values} mode={mode} />
-                  <Typo margin="20px auto 0 auto" size="20px">
-                    {e.title}
-                  </Typo>
-                  <Barchart barData={e} />
-                </GrapBox>
-              ))}
-            </GrapContent>
-          </GraphBody>
-        ) : (
-          <GraphBody>
-            <GraphHeader>
-              {graph.value.map((_, i) => (
-                <Typo
-                  margin="10px"
-                  size={i - select === 0 ? "20px" : "14px"}
-                  id={i}
-                  cursor="pointer"
-                  onClick={(e) => setSelect(e.target.id)}
-                  key={i}
-                >
-                  data {i + 1}
-                </Typo>
-              ))}
-            </GraphHeader>
-            <GrapContent>
-              <GrapBox>
-                <Typo margin="20px auto 0 auto" size="20px">
-                  {`graph no ${Number(select) + 1}`}
-                </Typo>
-                <GraphMinMax data={graph.value[select]} mode={mode} />
-                <LineChart lineData={lineDataChanger(graph.value[select])} />
-              </GrapBox>
-            </GrapContent>
-          </GraphBody>
-        )}
+        {graphs[mode](graph, select, setSelect)}
       </div>
     );
 }
