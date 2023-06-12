@@ -1,6 +1,8 @@
 version: "3.8"
 volumes:
   build_folder: null
+  static_volume: null
+  media_volume: null
 
 services:
   frontend:
@@ -9,19 +11,23 @@ services:
       args:
         API_URL: "*"
     environment:
-      - REACT_APP_BACKEND_URL=http://localhost:8000
+      - REACT_APP_BACKEND_URL=http://localhost:8080
     volumes:
       - ./front/:/frontend
       - build_folder:/frontend/build
+      - ./front/node_modules/:/frontend/node_modules
     tty: true
 
   nginx:
     build: ./nginx
     ports:
-      - 80:80
+      - 80:8080
     volumes:
+      - static_volume:/backend/staticfiles
+      - media_volume:/backend/mediafiles
       - build_folder:/var/www/frontend
     depends_on:
+      - backend
       - frontend
 
   backend:
@@ -49,8 +55,3 @@ services:
       timeout: 60s
       retries: 5
       start_period: 80s
-
-  adminer:
-    image: adminer
-    ports:
-      - 6638:8080

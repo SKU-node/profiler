@@ -2,18 +2,32 @@ import { useState } from "react";
 import Button from "../component/Button";
 import Container from "../component/Container";
 import TextBox from "../component/TextBox";
+import api from "../utils/api";
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [cPassword, setCpassword] = useState("");
+  const nav = useNavigate();
 
   const onIdChnage = (e) => setId(e.target.value);
   const onPasswordChnage = (e) => setPassword(e.target.value);
   const onCpasswordChnage = (e) => setCpassword(e.target.value);
-  const onsubmit = () => {
-    // need duplicate check
-    if (password === cPassword) console.log(id, password, cPassword);
+  const onsubmit = async () => {
+    try {
+      let result;
+      const is_unique = await api.get(`user?userId=${id}`);
+      if (is_unique) {
+        if (password === cPassword) result = await api.post("signup", { userId: id, password: password });
+        else result = "check password again!!";
+      } else result = "duplicated id!!";
+
+      alert(result);
+      if (result === "complete") nav("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
