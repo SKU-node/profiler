@@ -1,0 +1,6 @@
+DELETE http://localhost:8080/graph
+Content-Type: application/json
+
+{
+  "postId":"d210100f-6279-4ebc-b379-ec4eabba62b9"
+}

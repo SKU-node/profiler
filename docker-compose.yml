@@ -4,9 +4,40 @@ volumes:
 
 services:
   profiler:
-    build: ./
+    build: ./front
     ports:
-      - "6638:6638"
+      - "3000:3000"
     volumes:
-      - .:/profiler
+      - ./front:/profiler
     command: "yarn start"
+
+  backend:
+    build: ./back
+    command: "yarn start"
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./back:/backend
+    depends_on:
+      postgre:
+        condition: service_healthy
+
+  postgre:
+    build: ./db
+    volumes:
+      - ./db/data:/data
+    ports:
+      - "5432:5432"
+    env_file:
+      - "./db/.env"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-d", "db_prod"]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 80s
+
+  adminer:
+    image: adminer
+    ports:
+      - 6638:8080

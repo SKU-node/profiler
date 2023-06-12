@@ -1,0 +1,8 @@
+POST http://localhost:8080/graph
+Content-Type: application/json
+
+{
+  "uuid":"3b4ff7f4-0858-4999-8f2b-fea649c8d106",
+  "name":"123",
+  "value":"1"
+}
