@@ -46,6 +46,7 @@ function New() {
   const onFileChange = (e) => {
     const reader = new FileReader();
     reader.onload = (e) => setFile(e.target.result);
+    if (file.length === 0) return;
     reader.readAsText(e.target.files[0]);
   };
 
