@@ -37,21 +37,15 @@ services:
       - "8080:8080"
     volumes:
       - ./back:/backend
-    depends_on:
-      postgre:
-        condition: service_healthy
 
-  postgre:
-    build: ./db
-    volumes:
-      - ./db/data:/data
+  adminer:
+    image: adminer
+    restart: always
     ports:
-      - "5432:5432"
-    env_file:
-      - "./db/.env"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready", "-d", "db_prod"]
-      interval: 30s
-      timeout: 60s
-      retries: 5
-      start_period: 80s
+      - "8282:8282"
+    command:
+      - "php"
+      - "-S"
+      - "[::]:8282"
+      - "-t"
+      - "/var/www/html"

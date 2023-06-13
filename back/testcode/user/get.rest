@@ -1,2 +1,0 @@
-GET http://localhost/api/user?userId=12243
-Content-Type: application/json

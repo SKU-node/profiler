@@ -1,7 +1,0 @@
-POST http://localhost/api/user/signin
-Content-Type: application/json
-
-{
-  "userId":"12243",
-  "password":"123"
-}
