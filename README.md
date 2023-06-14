@@ -1,5 +1,7 @@
 # Welcome to PF-STALKER
 
+![logo](./front/public/favicon.ico)
+
 make your own graphs with data!
 
 ## 🌵 **Tech Stack**
@@ -45,3 +47,12 @@ make your own graphs with data!
 - [TESTCODE LINK](./back/testcode/)
 
 ## Link
+
+## 미구현
+
+- bcrypt 를 통한 비밀번호 암호화
+- jwt 를 활용한 유저 자격 증명
+- httpOnly 활용
+- S3 버킷 활용하여 대표 이미지 추가
+- 그래프 검색 기능
+- 유저 검색 기능
